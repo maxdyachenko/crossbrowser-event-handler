@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<button id="myButton">button</button>
+</body>
+<script type="text/javascript">
+	var eventUtil = {
+
+		addHandler: function(element,type,handler){
+			if (element.addEventListener){
+				element.addEventListener(type,handler,false);
+			} else if (element.attachEvent){
+				element.attachEvent("on" + type,handler);
+			} else{
+				element["on" + type] = handler;
+			}
+		},
+
+		removeHandler: function(element,type,handler){
+			if (element.removeEventListener){
+				element.removeEventListener(type,handler,false);
+			} else if (element.dettachEvent){
+				element.dettachEvent("on" + type,handler);
+			} else{
+				element["on" + type] = null;
+			}
+		}
+	};
+
+	var btn = document.getElementById('myButton');
+	var handler = function(){
+		alert("clicked");
+	};
+
+	eventUtil.addHandler(btn,"click",handler);
+	//using removeHandler is the same
+</script>
+</html>
