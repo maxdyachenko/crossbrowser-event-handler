@@ -20,6 +20,23 @@
 			}
 		},
 
+		getEvent: function(event){
+			return event ? event : window.event;
+		},
+
+		getTarget: function(event){
+			return event.target || event.srcElement;
+		},
+
+		preventDefault: function(event){
+			if (event.preventDefault()){
+				event.preventDefault();
+			}
+			else{
+				event.returnValue = false;
+			}
+		},
+
 		removeHandler: function(element,type,handler){
 			if (element.removeEventListener){
 				element.removeEventListener(type,handler,false);
@@ -27,6 +44,15 @@
 				element.dettachEvent("on" + type,handler);
 			} else{
 				element["on" + type] = null;
+			}
+		},
+
+		stopPropagation: function(){
+			if (event.stopPropagation()){
+				event.stopPropagation();
+			}
+			else{
+				event.cancelBubble = true;
 			}
 		}
 	};
@@ -38,5 +64,11 @@
 
 	eventUtil.addHandler(btn,"click",handler);
 	//using removeHandler is the same
+
+	btn.onclick = function(event){
+		event = eventUtil.getEvent(event);
+		var target = eventUtil.getTarget(event);
+		console.log(target);
+	};
 </script>
 </html>
